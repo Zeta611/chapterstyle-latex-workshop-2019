@@ -1,0 +1,16 @@
+\documentclass[a4paper]{memoir}
+
+\usepackage{amssymb}
+\usepackage{lipsum}
+
+\renewcommand*{\clearforchapter}{}
+\renewcommand{\memendofchapterhook}{%
+  \begin{center}
+    $\lozenge\lozenge\lozenge$
+  \end{center}}
+
+\begin{document}
+
+\chapter{Foo}
+\lipsum[1-4]
+\end{document}
