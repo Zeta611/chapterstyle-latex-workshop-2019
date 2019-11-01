@@ -82,7 +82,7 @@
 
 \maketitle
 
-\section{개괄}
+\section{Overview}
 
 \begin{frame}[fragile]{\texttt{\textbackslash chapter}가 하는 일}
   memoir에서 챕터 모양을 바꾸기 위해서는 \ltxverb/\chapterstyle{|<style>|}/ 사용
@@ -269,4 +269,128 @@
   \end{overprint}
 \end{frame}
 
+\begin{frame}[fragile]
+  {\texttt{\tbs afterchapternum}과 \texttt{\tbs midchapskip} 분석}
+  \ltxverb/\afterchapternum/은 챕터 번호를 출력한 직후에 실행되며, 기본적으로는
+  20pt로 설정되어 있는 \ltxverb/\midchapskip/을 출력한다.
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs afterchapternum}과 \texttt{\tbs midchapskip} 예시}
+  \begin{overprint}
+    \onslide<1>
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\midchapskip{20pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchapternum}
+        \end{center}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\midchapskip{0pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchapternum-2}
+        \end{center}
+      \end{column}
+    \end{columns}
+
+    \onslide<2>
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\midchapskip{20pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchapternum}
+        \end{center}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{minted}[mathescape,
+                       escapeinside=||,
+                       autogobble,
+                       linenos,
+                       numbersep=5pt,
+                       frame=single,
+                       fontsize=\tiny]{latex}
+          \renewcommand*{\afterchapternum}{\par\nobreak\vskip 0pt}|\vphantom{\LARGE a}|
+        \end{minted}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchapternum-3}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs afterchaptertitle}과 \texttt{\tbs afterchapskip} 분석}
+  \ltxverb/\afterchaptertitle/은 챕터 제목을 출력한 직후에 실행되며,
+  기본적으로는 40pt로 설정되어 있는 \ltxverb/\afterchapskip/을 출력한다.
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs afterchaptertitle}과 \texttt{\tbs afterchapskip} 예시}
+  \begin{overprint}
+    \onslide<1>
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\afterchapskip{40pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchaptertitle}
+        \end{center}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\afterchapskip{0pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchaptertitle-2}
+        \end{center}
+      \end{column}
+    \end{columns}
+
+    \onslide<2>
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{latexcode}
+          \setlength\afterchapskip{40pt}
+        \end{latexcode}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchaptertitle}
+        \end{center}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{minted}[mathescape,
+                       escapeinside=||,
+                       autogobble,
+                       linenos,
+                       numbersep=5pt,
+                       frame=single,
+                       fontsize=\tiny]{latex}
+          \renewcommand*{\afterchaptertitle}{\par\nobreak\vskip 0pt}|\vphantom{\LARGE a}|
+        \end{minted}
+        \begin{center}
+          \includegraphics[frame,page=1,width=0.8\linewidth]{afterchaptertitle-3}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{overprint}
+\end{frame}
+
+
+\section{Case Study}
+
+\begin{frame}[fragile]{Griffiths: Introduction to Electrodynamics}
+  \includegraphics[frame,width=0.4\textwidth]{griffiths}
+\end{frame}
 \end{document}
