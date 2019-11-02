@@ -1,5 +1,6 @@
 \documentclass{beamer}
 
+\usepackage{xparse}
 \usepackage{kotex}
 \usepackage{graphicx}
 \usepackage{minted}
@@ -62,6 +63,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 \def\tbs{\textbackslash}
 
+\newcommand*{\numberofpages}[1]{%
+  \the\XeTeXpdfpagecount"#1" %
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%
 %  Document Settings  %
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -84,8 +89,61 @@
 
 \section{Overview}
 
-% \begin{frame}[fragile]{문서의 챕터}
-% \end{frame}
+\begin{frame}[fragile]{Memoir 챕터}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      Memoir의 기본 챕터의 모양\vspace*{\baselineskip}
+
+      \pause
+      \begin{latexcode}
+        \documentclass[a4paper]{memoir}
+        \usepackage{lipsum}
+        \begin{document}
+        \chapter{Foo}
+        \lipsum[1-4]
+        \end{document}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/chapterheadstart}
+    \end{column}
+  \end{columns}
+  \pause
+  입맛에 맞게 꾸미고 싶다면?
+\end{frame}
+
+\begin{frame}[fragile]{예시}
+  \ExplSyntaxOn
+  \int_set:Nn \l_tmpa_int
+    {
+      \numberofpages { examples/showcases.pdf } / 2
+    }
+  \begin{columns}
+    \begin{column}{0.43\textwidth}
+      \begin{overprint}
+        \int_step_inline:nn { \l_tmpa_int }
+          {
+            \onslide<#1>
+            \includegraphics[frame,
+                             page={ \int_eval:n { #1 * 2 - 1 } },
+                             width=\linewidth]{examples/showcases}
+          }
+      \end{overprint}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \begin{overprint}
+        \int_step_inline:nn { \l_tmpa_int }
+          {
+            \onslide<#1>
+            \includegraphics[frame,
+                             page={ \int_eval:n { #1 * 2 } },
+                             width=\linewidth]{examples/showcases}
+          }
+      \end{overprint}
+    \end{column}
+  \end{columns}
+  \ExplSyntaxOff
+\end{frame}
 
 \begin{frame}[fragile]{\texttt{\textbackslash chapter}가 하는 일}
   memoir에서 챕터 모양을 바꾸기 위해서는 \ltxverb/\chapterstyle{|<style>|}/ 사용

@@ -1,0 +1,30 @@
+\documentclass[a4paper,openany]{memoir}
+
+\setlrmarginsandblock{1.3in}{1.3in}{*}
+\setmarginnotes{7pt}{18mm}{10pt}
+\checkandfixthelayout
+
+\usepackage{xparse}
+\usepackage{graphicx}
+\usepackage{lipsum}
+
+\begin{document}
+\ExplSyntaxOn
+\clist_map_inline:nn
+  {
+    default, section, hangnum, companion, article, bianchi, bringhurst,
+    brotherton, chappell, crosshead, culver, dash, demo2, dowding, ell, ger,
+    komalike, lyhne, madsen, ntglike, southall, tandh, thatcher, veelo,
+    verville, wilsondob
+  }
+  {
+    \setcounter { chapter } { 0 }
+    \chapterstyle { #1 }
+    \chapter { #1 ~ chapterstyle }
+    \lipsum[1]
+    \openany
+    \thispagestyle { empty }
+    \tl_if_eq:nnT { #1 } { crosshead } { \newpage }
+  }
+\ExplSyntaxOff
+\end{document}
