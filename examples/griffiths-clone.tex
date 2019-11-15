@@ -1,9 +1,156 @@
-\documentclass[a4paper]{memoir}
+\documentclass[openany]{memoir}
 
+% Page layout settings
+\setstocksize{237mm}{179mm}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+\setlrmarginsandblock{146pt}{39pt}{*}
+\setulmarginsandblock{60pt}{76pt}{*}
+\setheaderspaces{*}{13pt}{*}
+\checkandfixthelayout
+\setlength{\evensidemargin}{\oddsidemargin}
+
+% Font settings
+\usepackage{amsmath}
+\usepackage[lite,subscriptcorrection,slantedGreek,nofontinfo,amsbb,eucal]{mtpro2}
+
+\usepackage[no-math]{fontspec}
+\setmainfont{Times New Roman}
+\newfontfamily\optimafont{Optima}
+
+% Custom commands
+\usepackage{float}
 \usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{xparse}
+\usepackage{graphicx}
+
+\def\rcurs{\mbox{$\resizebox{.115in}{.067in}{\includegraphics{ScriptR}}$}}
+\def\brcurs{\mbox{$\resizebox{.15in}{.07in}{\includegraphics{BoldR}}$}}
+\def\hrcurs{\mbox{$\hat \brcurs$}}
+
+\renewcommand*{\vec}[1]{\mathbf{#1}}
+\newcommand*{\shiftleft}[2]{\makebox[0pt][r]{\makebox[#1][l]{#2}}}
+\newcommand*{\shiftright}[2]{\makebox[#1][r]{\makebox[0pt][l]{#2}}}
+
+% Pagestyle settings
+\makepagestyle{griffiths}
+\makeatletter
+\makepsmarks{griffiths}{%
+  \nouppercaseheads
+  \createmark{chapter}{left}{shownumber}{\@chapapp\ }{\quad}
+  \createmark{section}{right}{shownumber}{}{\quad}}
+\makeatother
+
+\makeevenhead{griffiths}{%
+  \optimafont\shiftleft{107pt}{\bfseries\thepage}\small\leftmark}{}{}
+\makeoddhead{griffiths}{\optimafont\small\rightmark}
+                       {}{\optimafont\bfseries\thepage}
+
+\makepagestyle{gchapter}
+\makeevenfoot{gchapter}{\optimafont\shiftleft{107pt}{\bfseries\thepage}}{}{}
+\makeoddfoot{gchapter}{}{}{\optimafont\bfseries\thepage}
+
+% Chapterstyle settings
+\makeatletter
+\newlength{\chapappwidth}
+\makechapterstyle{griffiths}{%
+  \chapterstyle{default}
+  \setlength\beforechapskip{-42pt}
+  \renewcommand*{\afterchapternum}{\qquad}
+  \setlength\afterchapskip{63pt}
+  \renewcommand*{\chapnamefont}{%
+    \optimafont\bfseries\addfontfeatures{LetterSpace=26}\huge}
+  \def\chaptertext{\chapnamefont\MakeUppercase{\@chapapp}}
+  \settowidth{\chapappwidth}{\chaptertext}
+  \renewcommand*{\printchaptername}{%
+    \begin{adjustwidth}{-\chapappwidth}{}
+      \chaptertext
+    \end{adjustwidth}}
+  \renewcommand*{\chapternamenum}{\vskip 12pt}
+  \renewcommand*{\chapnumfont}{%
+    \optimafont\bfseries\fontsize{60}{60}\selectfont}
+  \renewcommand*{\printchapternum}{}
+  \renewcommand*{\chaptitlefont}{%
+    \optimafont\bfseries\fontsize{22}{22}\selectfont}
+  \renewcommand*{\printchaptertitle}[1]{%
+    \begin{adjustwidth}{-\chapappwidth}{}
+      \makebox[\chapappwidth][c]{\chapnumfont\thechapter}%
+      \makebox[\dimexpr\linewidth-\chapappwidth\relax][c]{\chaptitlefont ##1}
+    \end{adjustwidth}}}
+\makeatother
+\renewcommand*{\memendofchapterhook}{\thispagestyle{gchapter}}
+
+% Sectionstyle settings
+\setsecnumdepth{subsection}
+\maxsecnumdepth{subsection}
+
+\setsecnumformat{\llap{\csname the#1\endcsname\ $\blacksquare$\ }}
+\setsecheadstyle{\optimafont\bfseries\MakeUppercase}
+\setsubsecheadstyle{\optimafont\bfseries}
+
+% Footnote settings
+\setlength{\footmarkwidth}{0pt}
+\setlength{\footmarksep}{0pt}
+\let\oldfootnoterule\footnoterule
+\renewcommand*{\footnoterule}{}
+
 
 \begin{document}
+\setcounter{page}{59}
+\setcounter{chapter}{1}
+\pagestyle{griffiths}
+\chapterstyle{griffiths}
 
-\chapter{Vector Analysis}
-\lipsum[1-3]
+\chapter{Electrostatics}
+\section{The Electric Field}
+\subsection{Introduction}
+The fundamental problem electrodynamics hopes to solve is this (Fig. 2.1):
+We have some electric charges, $q_1, q_2, q_3, \dots$ (call them
+\strong{source charges});
+what force do they exert on another charge, $Q$ (call it the
+\strong{test charge})?
+The positions of the source charges are \emph{given} (as functions of time);
+the trajectory of the test particle is \emph{to be calculated}.
+In general, both the source charges and the test charge are in motion.
+
+The solution to this problem is facilitated by the
+\strong{principle of superposition}, which states that the interaction between
+any two charges is completely unaffected by the presence of others.
+This means that to determine the force on $Q$, we can first compute the force
+$\vec{F}_1$, due to $q_1$ alone (ignoring all the others);
+then we compute the force $\vec{F}_2$, due to $q_2$ alone;
+and so on.
+Finally, we take the vector sum of all these individual forces:
+$\vec{F} = \vec{F}_1 + \vec{F}_2 + \vec{F}_3 + \dots$
+Thus, if we can find the force on $Q$ due to a \emph{single} source charge $q$,
+we are, in principle, done (the rest is just aquestion of repeating the same
+operation over and over, and adding it all up).\footnote{The principle of
+  superposition may seem ``obvious'' to you, but it did not have to be so
+  simple:
+  if the electromagnetic force were proportional to the square of the total
+  source charge, for instance, the principle of superposition would not hold,
+  since $(q_1 + q_2)^2 \neq q_1^2 + q_2^2$ (there would be ``cross terms'' to
+  consider).
+  Superposition is not a logical necessity, but an experimental fact.}
+
+Well, at first sight this looks very easy:
+Why don’t I just write down the formula for the force on $Q$ due to $q$, and
+be done with it?
+I \emph{could}, and in Chapter 10 I shall, but you would be shocked to see it
+at this stage, for not only does the force
+\makebox[\linewidth][s]{%
+on $Q$ depend on the separation distance \rcurs between the charges (Fig. 2.2),
+it also}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figure}
+\end{figure}
+
+\lipsum[1]
+
+\subsection{Coloumb's Law}
+\lipsum[2-5]
+
+\subsection{The Electric Field}
+\lipsum[6-9]
 \end{document}

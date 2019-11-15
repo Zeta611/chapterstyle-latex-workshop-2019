@@ -1,0 +1,12 @@
+\documentclass[a4paper]{memoir}
+
+\usepackage{lipsum}
+
+\renewcommand*{\chaptitlefont}{\normalfont\scshape\Huge}
+\renewcommand*{\printchaptertitle}[1]{\chaptitlefont #1}
+
+\begin{document}
+
+\chapter{FooBar}
+\lipsum[1-4]
+\end{document}

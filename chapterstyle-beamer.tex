@@ -72,13 +72,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \title{%
-  {\large memoir와 expl3로 해보는 Book Design}\\
+  {\large Memoir로 해보는 Book Design}\\
   Chapter Style
 }
 
 \author{이재호}
-\institute{memoir 스터디 그룹}
-\date{\today}
+\institute{서울대학교 전기$\cdot$정보공학부/KTUG}
+\date{2019년 11월 16일}
 
 %%%%%%%%%%%%%%
 %  Document  %
@@ -146,14 +146,14 @@
 \end{frame}
 
 \begin{frame}[fragile]{\texttt{\textbackslash chapter}가 하는 일}
-  memoir에서 챕터 모양을 바꾸기 위해서는 \ltxverb/\chapterstyle{|<style>|}/ 사용
+  Memoir에서 챕터 모양을 바꾸기 위해서는 \ltxverb/\chapterstyle{|<style>|}/ 사용
 
   \pause
   일반적으로 \LaTeX에서는 \ltxverb/\@makechapterhead/로 \ltxverb/\chapter/의
   서식을 지정, \ltxverb/\@makeschapterhead/로 \ltxverb/\chapter*/의 서식을 지정
 
   \pause
-  memoir에서는 대략...
+  Memoir에서는 대략...
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
       \begin{latexcode}
@@ -448,10 +448,357 @@
   \end{overprint}
 \end{frame}
 
+\begin{frame}[fragile]
+  {\texttt{\tbs printchaptername}과 \texttt{\tbs chapnamefont} 분석}
+  \ltxverb/\printchaptername/은 챕터 이름을 출력한다.
+  이때 이름이란 제목이 아니라, 기본적으로 \texttt{Chapter} 혹은
+  \texttt{Appendix}로 정해져 있는, 챕터 앞에 붙는 이름을 말한다.
+  사용되는 글꼴은 \ltxverb/\chapnamefont/로 지정하고, 기본값은
+  \ltxverb/\bfseries\huge/이다.
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{\tbs printchaptername} 및 \texttt{\tbs chapnamefont} 예시}
+  \begin{overprint}
+    \onslide<1>
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+        \begin{latexcode}
+          \renewcommand*{\printchaptername}{%
+            \sffamily\large LECTURE }
+        \end{latexcode}
+      \end{column}
+
+      \begin{column}{0.4\textwidth}
+        \includegraphics[frame,page=1,width=\linewidth]{examples/printchaptername}
+      \end{column}
+    \end{columns}
+
+    \onslide<2>
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+        \begin{latexcode}
+          \renewcommand*{\printchaptername}{%
+            \chapnamefont LECTURE }
+          \renewcommand*{\chapnamefont}{\sffamily\large}
+        \end{latexcode}
+      \end{column}
+
+      \begin{column}{0.4\textwidth}
+        \includegraphics[frame,page=1,width=\linewidth]{examples/printchaptername}
+      \end{column}
+    \end{columns}
+
+    \onslide<3>
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+        \begin{latexcode}
+          \makeatletter
+          \renewcommand*{\@chapapp}{LECTURE}
+          \renewcommand*{\printchaptername}{%
+            \chapnamefont\@chapapp}
+          \renewcommand*{\chapnamefont}{\sffamily\large}
+          \makeatother
+        \end{latexcode}
+      \end{column}
+
+      \begin{column}{0.4\textwidth}
+        \includegraphics[frame,page=1,width=\linewidth]{examples/printchaptername}
+      \end{column}
+    \end{columns}
+
+    \onslide<4>
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+        \begin{latexcode}
+          \makeatletter
+          \renewcommand*{\@chapapp}{Lecture}
+          \renewcommand*{\printchaptername}{%
+            \chapnamefont\MakeUppercase\@chapapp}
+          \renewcommand*{\chapnamefont}{\sffamily\large}
+          \makeatother
+        \end{latexcode}
+      \end{column}
+
+      \begin{column}{0.4\textwidth}
+        \includegraphics[frame,page=1,width=\linewidth]{examples/printchaptername}
+      \end{column}
+    \end{columns}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs chapternamenum} 분석 및 예시}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \ltxverb/\chapternamenum/은 챕터 이름과 번호 사이에 사용되는 명령어로,
+      기본값은 띄어쓰기이다.
+      \pause
+      \newline
+      \begin{latexcode}
+        \renewcommand*{\chapternamenum}{\vskip 12pt}
+      \end{latexcode}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/chapternamenum}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs printchapternum}과 \texttt{\tbs chapnumfont} 분석}
+  \ltxverb/\printchaptername/과 \ltxverb/\chapnumfont/의 관계처럼
+  \ltxverb/\printchapternum/은 챕터 번호를, 사용되는 글꼴은
+  \ltxverb/\chapnumfont/로 지정한다.
+  \ltxverb/\chapnumfont/의 기본값은 \ltxverb/\chapnamefont/와 같은
+  \ltxverb/\bfseries\huge/이다.
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs printchapternum} 및 \texttt{\tbs chapnumfont} 예시}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{latexcode}
+        \renewcommand*{\printchapternum}{%
+          \chapnumfont\thechapter}
+        \renewcommand*{\chapnumfont}{\slshape\Huge}
+      \end{latexcode}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/printchapternum}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs printchaptertitle}과 \texttt{\tbs chaptitlefont} 분석}
+  이전과 마찬가지로 \ltxverb/\printchaptertitle/은 챕터 번호를, 사용되는 글꼴은
+  \ltxverb/\chaptitlefont/로 지정한다.
+  \ltxverb/\chaptitlefont/의 기본값은 \ltxverb/\bfseries\Huge/이다.
+\end{frame}
+
+\begin{frame}[fragile]
+  {\texttt{\tbs printchaptertitle}과 \texttt{\tbs chaptitlefont} 예시}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{latexcode}
+        \renewcommand*{\chaptitlefont}{%
+          \normalfont\scshape\Huge}
+        \renewcommand*{\printchaptertitle}[1]{%
+          \chaptitlefont #1}
+      \end{latexcode}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/printchaptertitle}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Summary}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{summary}
+  \end{center}
+\end{frame}
 
 \section{Case Study}
 
-\begin{frame}[fragile]{Griffiths: Introduction to Electrodynamics}
-  \includegraphics[frame,width=0.4\textwidth]{examples/griffiths}
+\begin{frame}[fragile]{Introduction to Electrodynamics (Griffiths)}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      엊그제 전자기학 시험을 봤습니다$\ldots$
+      \pause
+
+      Griffiths의 Introduction to Electrodynamics 교재의 chapter style을
+      모방하며 위의 명령어들을 활용해봅시다.
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,width=\linewidth]{examples/griffiths-sample}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{페이지 레이아웃 및 글꼴 설정 (참고)}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        \documentclass[openany]{memoir}
+
+        % Page layout settings
+        \setstocksize{237mm}{179mm}
+        \settrimmedsize{\stockheight}{\stockwidth}{*}
+        \setlrmarginsandblock{146pt}{39pt}{*}
+        \setulmarginsandblock{60pt}{76pt}{*}
+        \setheaderspaces{*}{13pt}{*}
+        \checkandfixthelayout
+        \setlength{\evensidemargin}{\oddsidemargin}
+
+        % Font settings
+        \usepackage{amsmath}
+        \usepackage[(생략)]{mtpro2}
+        \usepackage[no-math]{fontspec}
+        \setmainfont{Times New Roman}
+        \newfontfamily\optimafont{Optima}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{페이지 스타일 설정 (참고)}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        \newcommand*{\shiftleft}[2]{%
+          \makebox[0pt][r]{%
+            \makebox[#1][l]{#2}}}
+        % Pagestyle settings
+        (생략)
+        % 챕터가 나오는 쪽에 대한 페이지 스타일
+        \makepagestyle{gchapter}
+        % 쪽 번호가 왼쪽에 올 경우에는 텍스트보다 왼쪽으로 107pt 옮겨서 표시
+        \makeevenfoot{gchapter}{%
+          \optimafont\shiftleft{107pt}{%
+            \bfseries\thepage}}{}{}
+        \makeoddfoot{gchapter}{}{}{%
+          \optimafont\bfseries\thepage}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{챕터 스타일 설정 1}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        % Chapterstyle settings
+        \makeatletter
+        \newlength{\chapappwidth}
+        \makechapterstyle{griffiths}{%
+          % 기본 챕터 스타일에서 시작
+          \chapterstyle{default}
+          \setlength\beforechapskip{-42pt}
+          \renewcommand*{\afterchapternum}{%
+            \qquad}
+          \setlength\afterchapskip{63pt}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{챕터 스타일 설정 2}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        \renewcommand*{\chapnamefont}{%
+          \optimafont\bfseries%
+          \addfontfeatures{LetterSpace=26}%
+          \huge}
+        \def\chaptertext{\chapnamefont%
+          \MakeUppercase{\@chapapp}}
+        % CHAPTER의 너비를 저장
+        \settowidth{\chapappwidth}{\chaptertext}
+        \renewcommand*{\printchaptername}{%
+          % 왼쪽 여백을 줄임
+          \begin{adjustwidth}{%
+            -\chapappwidth}{}
+            \chaptertext
+          \end{adjustwidth}}
+        \renewcommand*{\chapternamenum}{%
+          \vskip 12pt}
+        \renewcommand*{\chapnumfont}{%
+          \optimafont\bfseries%
+          \fontsize{60}{60}\selectfont}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{챕터 스타일 설정 3}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        % 챕터 번호는 \printchaptertitle에서 같이 출력하도록 지정
+        \renewcommand*{\printchapternum}{}
+        \renewcommand*{\chaptitlefont}{%
+          \optimafont\bfseries%
+          \fontsize{22}{22}\selectfont}
+        \renewcommand*{%
+          \printchaptertitle}[1]{%
+          \begin{adjustwidth}{%
+            -\chapappwidth}{}
+            \makebox[\chapappwidth][c]{%
+              \chapnumfont\thechapter}%
+            \makebox[\dimexpr\linewidth-\chapappwidth\relax][c]{%
+              \chaptitlefont ##1}
+          \end{adjustwidth}}}
+        \makeatother
+        % 챕터 쪽의 페이지 스타일 지정
+        \renewcommand*{\memendofchapterhook}{%
+          \thispagestyle{gchapter}}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{기타 서식 설정}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{latexcode}
+        % Sectionstyle settings
+        \setsecnumdepth{subsection}
+        \maxsecnumdepth{subsection}
+
+        \setsecnumformat{\llap{%
+          \csname the#1\endcsname\ $\blacksquare$\ }}
+        \setsecheadstyle{%
+          \optimafont\bfseries\MakeUppercase}
+        \setsubsecheadstyle{\optimafont\bfseries}
+
+        % Footnote settings
+        \setlength{\footmarkwidth}{0pt}
+        \setlength{\footmarksep}{0pt}
+        \let\oldfootnoterule\footnoterule
+        \renewcommand*{\footnoterule}{}
+      \end{latexcode}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[frame,page=1,width=\linewidth]{examples/griffiths-clone}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{마무리}
+  \pause
+  \centering 감사합니다.
+\end{frame}
+
+\begin{frame}{부록}
+  본 발표 자료는
+  \url{https://github.com/Zeta611/chapterstyle-latex-workshop-2019}에서 소스와
+  함께 보실 수 있으며, case study에서 살펴본 챕터 스타일은
+  \url{https://github.com/Zeta611/griffiths-clone/}에서 보실 수 있습니다.
+
+  또한 본 주제를 포함한 Memoir에 관한 모든 내용은 \texttt{texdoc memoir}을
+  터미널에 입력하시면 읽어보실 수 있습니다.
+
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{rtfm}
+  \end{center}
 \end{frame}
 \end{document}
